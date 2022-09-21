@@ -1,0 +1,167 @@
+[
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 1,
+        "fields": {
+            "watched": true,
+            "title": "Top Gun: Maverick",
+            "rating": 5,
+            "release_date": "2022-05-18",
+            "review": "Top Gun: Maverick pulls off a feat even trickier than a 4G inverted dive, delivering a long-belated sequel that surpasses its predecessor in wildly entertaining style."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 2,
+        "fields": {
+            "watched": false,
+            "title": "Nope",
+            "rating": 4,
+            "release_date": "2022-07-22",
+            "review": "Admirable for its originality and ambition even when its reach exceeds its grasp, Nope adds Spielbergian spectacle to Jordan Peele's growing arsenal."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 3,
+        "fields": {
+            "watched": false,
+            "title": "Dragon Ball Super: Super Hero",
+            "rating": 4,
+            "release_date": "2022-06-11",
+            "review": "Blending beautifully animated action with fresh character development, Dragon Ball Super: Super Hero is everything fans of the franchise will be looking for."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 4,
+        "fields": {
+            "watched": true,
+            "title": "Knives Out",
+            "rating": 5,
+            "release_date": "2019-11-27",
+            "review": "Knives Out sharpens old murder-mystery tropes with a keenly assembled suspense outing that makes brilliant use of writer-director Rian Johnson's stellar ensemble."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 5,
+        "fields": {
+            "watched": false,
+            "title": "Bullet Train",
+            "rating": 3,
+            "release_date": "2022-08-05",
+            "review": "Bullet Train's colorful cast and high-speed action are almost enough to keep things going after the story runs out of track."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 6,
+        "fields": {
+            "watched": false,
+            "title": "Everything Everywhere All at Once",
+            "rating": 5,
+            "release_date": "2022-04-08",
+            "review": "Led by an outstanding Michelle Yeoh, Everything Everywhere All at Once lives up to its title with an expertly calibrated assault on the senses."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 7,
+        "fields": {
+            "watched": true,
+            "title": "The Batman",
+            "rating": 4,
+            "release_date": "2022-03-04",
+            "review": "A grim, gritty, and gripping super-noir, The Batman ranks among the Dark Knight's bleakest -- and most thrillingly ambitious -- live-action outings."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 8,
+        "fields": {
+            "watched": true,
+            "title": "Baby Driver",
+            "rating": 5,
+            "release_date": "2017-06-28",
+            "review": "Stylish, exciting, and fueled by a killer soundtrack, Baby Driver hits the road and it's gone -- proving fast-paced action movies can be smartly written without sacrificing thrills."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 9,
+        "fields": {
+            "watched": false,
+            "title": "Jojo Rabbit",
+            "rating": 5,
+            "release_date": "2019-11-08",
+            "review": "Jojo Rabbit's blend of irreverent humor and serious ideas definitely won't be to everyone's taste -- but either way, this anti-hate satire is audacious to a fault."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 10,
+        "fields": {
+            "watched": false,
+            "title": "Pinocchio (2022)",
+            "rating": 1,
+            "release_date": "2022-09-08",
+            "review": "Visually dazzling but soulless, the largely inert Pinocchio reaffirms that you should always let your conscience be your guide… away from unnecessary remakes."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 11,
+        "fields": {
+            "watched": false,
+            "title": "Last Night in Soho",
+            "rating": 4,
+            "release_date": "2021-10-29",
+            "review": "Although it struggles to maintain its thrilling early momentum, Last Night in Soho shows flashes of Edgar Wright at his most stylish and ambitious."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 12,
+        "fields": {
+            "watched": true,
+            "title": "The Lighthouse",
+            "rating": 4,
+            "release_date": "2019-10-25",
+            "review": "A gripping story brilliantly filmed and led by a pair of powerhouse performances, The Lighthouse further establishes Robert Eggers as a filmmaker of exceptional talent."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 13,
+        "fields": {
+            "watched": true,
+            "title": "Parasite",
+            "rating": 5,
+            "release_date": "2019-11-1",
+            "review": "An urgent, brilliantly layered look at timely social themes, Parasite finds writer-director Bong Joon Ho in near-total command of his craft."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 14,
+        "fields": {
+            "watched": true,
+            "title": "Evangelion: 3.0+1.0 Thrice Upon a Time",
+            "rating": 4,
+            "release_date": "2021-08-13",
+            "review": "Thrice Upon a Time is as imperfect as anything in the Evangelion franchise, but as Anno's last word on the franchise, it might just be a perfect ending."
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 15,
+        "fields": {
+            "watched": true,
+            "title": "Sonic The Hedgehog 2",
+            "rating": 4,
+            "release_date": "2022-04-08",
+            "review": "A fun, fast-paced improvement on the original, Sonic the Hedgehog 2 is like a video game come to life -- and for once where a movie's concerned, that's actually a compliment."
+        }
+    }
+]

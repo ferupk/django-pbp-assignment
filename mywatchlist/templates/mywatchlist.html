@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+
+  <div class="div-title">
+    <h1 class="h-center">Tugas 3 PBP/PBD: Data Delivery</h1>
+    <h2 class="h-center">My Watchlist</h2>
+  </div>
+
+  <table>
+    <tr>
+      <th style="width: 25%;" class="top">Title</th>
+      <th style="width: 15%;" class="top">Release Date</th>
+      <th class="top">Rating</th>
+      <th style="width: 50%;" class="top">Review</th>
+      <th class="top">Watched?</th>
+    </tr>
+    {% comment %} Add the data below this line {% endcomment %}
+    {% for film in my_watchlist %}
+      <tr>
+        <th>{{film.title}}</th>
+        <th>{{film.release_date}}</th>
+        <th>{{film.rating}}</th>
+        <th>{{film.review}}</th>
+        {% if film.watched %}
+          <th style="background-color:green;">YES</th>
+        {% else %}
+          <th style="background-color:red;">NO</th>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    <tr style="height: 20px;"></tr>
+    <tr>
+      <th class="top">Verdict</th>
+      {% if watched_enough %}
+        <th colspan="4">Selamat, kamu sudah banyak menonton!</th>
+      {% else %}
+        <th colspan="4">Wah, kamu masih sedikit menonton!</th>
+      {% endif %}
+    </tr>
+  </table>
+  <div class="div-footer">
+    <p style="background-color: transparent;">Feru Pratama Kartajaya - 2106750351</p>
+  </div>
+ {% endblock content %}
