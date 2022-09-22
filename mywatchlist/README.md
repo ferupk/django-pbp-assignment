@@ -100,7 +100,7 @@ Aplikasi `mywatchlist` merupakan tambahan dari proyek Django yang dimulai pada T
 
          Pada `urls.py` di folder `mywatchlist`, tambahkan path khusus pada list `urlpatterns` untuk mengakses fungsi tersebut.
 
-         ```
+         ```python
          urlpatterns = [
              ...
              path('html/', show_mywatchlist, name='show_mywatchlist'),
@@ -130,7 +130,7 @@ Aplikasi `mywatchlist` merupakan tambahan dari proyek Django yang dimulai pada T
 
          Pada `urls.py` di folder `mywatchlist`, import fungsi `show_xml` dan tambahkan path khusus pada list `urlpatterns` untuk mengakses fungsi tersebut.
 
-         ```
+         ```python
          urlpatterns = [
              ...
              path('xml/', show_xml, name='show_xml'),
