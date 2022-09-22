@@ -121,7 +121,7 @@ Aplikasi `mywatchlist` merupakan tambahan dari proyek Django yang dimulai pada T
          Dengan menyimpan variabel ini sebagai `context` kita dapat menyampaikan pesan khusus di webpage yang bersesuaian dengan jumlah film yang telah ditonton.
 
       * XML dan JSON
-      
+
          Pada `views.py` di folder `mywatchlist`, import class `HttpResponse` dan module `serializers`. Setelah itu, buatlah sebuah fungsi `show_xml` yang menerima request dari client. Simpan semua model pada database di dalam variabel `data` menggunakan fungsi `MyWatchList.objects.all`. Lalu, kembalikan sebuah HttpResponse dengan parameter serialisasi data menjadi XML dan tetapkan `content_type` untuk XML.
 
          ```python
@@ -142,3 +142,17 @@ Aplikasi `mywatchlist` merupakan tambahan dari proyek Django yang dimulai pada T
    6. **Deployment ke Heroku**
 
       Pada `Procfile`, tambahkan perintah `python manage.py loaddata initial_mywatchlist_data.json` pada script agar data `mywatchlist` dapat digunakan setelah deployment aplikasi. Akhirnya, git add, commit, dan push semua perubahan ke repository GitHub. Deployment akan mulai secara otomatis dan aplikasi dapat diakses melalui link aplikasi Heroku setelah selesai.
+
+### Postman API
+
+   * HTML
+
+      ![HTML di Postman](https://github.com/ferupk/django-pbp-assignment/blob/main/mywatchlist/images/postman_html.png)
+   
+   * XML
+
+      ![XML di Postman](https://github.com/ferupk/django-pbp-assignment/blob/main/mywatchlist/images/postman_xml.png)
+   
+   * JSON
+
+      ![JSON di Postman](https://github.com/ferupk/django-pbp-assignment/blob/main/mywatchlist/images/postman_json.png)
