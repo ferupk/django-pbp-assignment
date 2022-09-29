@@ -4,17 +4,36 @@ Feru Pratama Kartajaya (2106750351) - Kelas E
 
 Link Heroku: https://django-pbp-ferupk.herokuapp.com/todolist/
 
-### Fungsi CSRF token
+### Fungsi CSRF Token
 
-Placeholder
+Cross Site Request Forgery atau CSRF aalah sebuah ancaman aplikasi web dimana seorang *attacker* menciptakan sebuah web request saat user sedang login, umumnya menggunakan link atau form buatan. Apabila user mengakses link/form tersebut dan membuat web request, kode *attacker* akan diproses. Kode yang diproses dapat melakukan bermacam hal, mulai dari mengambil informasi pribadi user hingga melakukan aksi di website tersebut yang dapat merugikan user.
+
+Untuk melindungi dari CSRF, kita dapat menyisipkan CSRF Token pada form di aplikasi web. Di Django, hal ini dapat dilakukan dengan menyisipkan kode `{% csrf_token %}` di dalam elemen `<form>` pada template HTML. Kode tersebut akan menciptakan sebuah token yang dapat dicocokkan dengan token yang ada di server. Apabila sebuah form yang di-submit tidak memiliki CSRF token yang sama, server tidak akan memproses form tersebut. Pengecekan ini memastikan agar form yang berasal dari sumber lain (misal form buatan dari *attacker*) tidak dapat mengirim web request yang tidak diinginkan.
 
 ### Pembuatan Form secara manual
 
-Placeholder
+Di Django, kita dapat menggunakan generator seperti `{{ form.as_table }}` pada template HTML untuk membuat sebuah form secara otomatis. Namun, proses ini tidak diwajibkan dan form dapat ditambahkan secara manual.
+
+Gambaran umum membuat form secara manual adalah sebagai berikut:
+
+    * Menambahkan elemen `<form>` untuk menandakan bagian form pada webpage
+    * Tentukan format penyajian form (`<table>`, `<div>`, `<p>`, dll.)
+    * Gunakan elemen `<input>` untuk menandakan cara input data dari form
+    * Tetapkan atribut `type` dari `<input>` sesuai dengan kebutuhan (text, password, submit, dll.)
+    * Tetapkan atribut `name` dari `<input>` agar dapat dipanggil saat memproses input.
+    * Berikan cara untuk submit form (return key, submit button, dll.)
 
 ### Proses alur data
 
-Placeholder
+Proses alur data mulai dari submisi form hingga munculnya data di webpage adalah sebagai berikut:
+
+    * Client meminta webpage HTML dengan form
+    * Server menciptakan render webpage tersebut dan mengembalikannya kepada client
+    * Client mengisi data pada form tersebut dan melakukan submisi
+    * Server menerima request dari user yang mengandung data yang diisi dalam form
+    * Server memproses data tersebut sesuai dengan keperluan dan menyimpan hasilnya
+    * Server menciptakan render webpage baru dengan tambahan data yang telah diproses
+    * Webpage dengan data baru ditampilkan kepada client
 
 ### Implementasi autentikasi pada aplikasi Django
 
@@ -93,10 +112,10 @@ Aplikasi `todolist` merupakan tambahan dari proyek Django yang dimulai pada Tuga
               form = UserCreationForm(request.POST)
               if form.is_valid():
                   form.save()
-                  messages.success(request, 'Account created successfully!')
+                  messages.success(request, 'Akun berhasil dibuat!')
                   return redirect('todolist:login')
               else:
-                  messages.info(request, 'Something went wrong, try again and make sure the rules are followed!')
+                  messages.info(request, 'Ada yang bermasalah, coba lagi dan ikuti instruksi!')
 
           context = {'form':form}
           return render(request, 'register.html', context)
@@ -116,7 +135,7 @@ Aplikasi `todolist` merupakan tambahan dari proyek Django yang dimulai pada Tuga
                       response.set_cookie('current_user', username)
                       return response
                   else:
-                      messages.info(request, 'Wrong username or password, try again!')
+                      messages.info(request, 'Username atau password salah, coba lagi!')
 
           context = {}
           return render(request, 'login.html', context)
@@ -214,10 +233,10 @@ Aplikasi `todolist` merupakan tambahan dari proyek Django yang dimulai pada Tuga
                   task_data.date = date.today()
                   task_data.save()
                   form.save_m2m()
-                  messages.success(request, 'Task added successfully!')
+                  messages.success(request, 'Task berhasil ditambahkan!')
                   return redirect('todolist:show_todolist')
               else:
-                  messages.info(request, 'Something went wrong, try again!')
+                  messages.info(request, 'Ada yang bermasalah, coba lagi!')
 
           context = {
               'form': form,
@@ -253,20 +272,101 @@ Aplikasi `todolist` merupakan tambahan dari proyek Django yang dimulai pada Tuga
       Pada `todolist.html` di folder `templates`, tambahkan for loop untuk menambahkan data `Task` ke dalam tabel `todolist`. Karena data berupa model, setiap `Task` perlu diakses setiap atributnya secara langsung. Selain itu, tambahkan juga tombol untuk menambahkan `Task` seperti berikut:
 
       ```html
-      <!-- Button "Create New Task" pada todolist.html -->
-      <td style="background-color: transparent;"><a href="{% url 'todolist:create_task' %}"><button class="btn-common">Create New Task</button></a></td>
+      <!-- Button "Tambah Task Baru" pada todolist.html -->
+      <td style="background-color: transparent;"><a href="{% url 'todolist:create_task' %}"><button class="btn-common">Tambah Task Baru</button></a></td>
       ```
 
-   6. **Routing URL**
+   7. **Routing URL**
+
       Poin ini sudah dijelaskan pada poin-poin sebelumnya saat menambahkan path ke list `urlpatterns`.
 
-   7. **Deployment ke Heroku**
+   8. **Deployment ke Heroku**
 
       Di `cmd`, git add, commit, dan push semua perubahan ke repository GitHub. Deployment akan mulai secara otomatis dan aplikasi dapat diakses melalui link aplikasi Heroku setelah selesai.
    
-   8. **Testing akun dan pembuatan Task**
+   9. **Testing akun dan pembuatan Task**
+
       Setelah mengakses aplikasi di https://django-pbp-ferupk.herokuapp.com/todolist/, buatlah 2 akun berbeda. Setelah itu, buatlah 3 task baru untuk setiap akun.
    
-   bonus
+   10. **BONUS: Implementasi dasar CRUD pada Task**
 
-   tambahkan is_finished pada models
+      NOTE: Langkah berikut dilakukan sebelum deployment ke Heroku
+
+      Pada `models.py` di folder `todolist`, tambahkan atribut `is_finished` pada class `Task` dengan default value `False`. Atribut ini akan digunakan sebagai flag apabila `Task` sudah dilakukan. Lalu, update model di database lokal dengan menjalankan `python manage.py makemigrations` dan `python manage.py migrate` untuk menyimpannya.
+      
+      Pada `todolist.html` di folder `templates`, tambahkan 3 kolom yang akan digunakan untuk menampilkan status `Task`, mengubah status `Task`, dan menghapus `Task`. Untuk mengubah status dan menghapus `Task`, gunakan elemen `<form>` dengan metode HTTP POST. Berikan elemen `<input>` untuk menyimpan primary key dari `Task` serta perintah yang akan dilakukan. Gunakan atribut `name=` untuk memberikan tanda pada input yang bisa dipanggil nanti dan `value=` untuk menyimpan nilai yang dapat dibandingkan.
+
+      ```html
+      <table>
+          <tr>
+              ...
+              <th style="width: 6%;" class="todolist">Status</th>
+              <th style="width: 6%;" class="todolist">Ubah Status</th>
+              <th style="width: 6%;" class="todolist">Hapus Task</th>
+          </tr>
+          {% for task in task_list %}
+              <tr>
+                  ...
+                  {% if task.is_finished %}
+                      <td class="todolist" style="background-color: green;">Selesai</td>
+                  {% else %}
+                      <td class="todolist" style="background-color: red;">Belum Selesai</td>
+                  {% endif %}
+                  <td class="todolist" style="background-color: white;">
+                      <form method="POST">
+                          {% csrf_token %}
+                          <input type="hidden" name="id" value="{{task.pk}}">
+                          {% if task.is_finished %}
+                              <input type="hidden" name="update_task" value="not_done">
+                          {% else %}
+                              <input type="hidden" name="update_task" value="done">
+                          {% endif %}
+                          <input type="submit" name="submit" value="⇄" style="border: none; background-color: transparent; font-size: 24px;">
+                      </form>
+                  </td>
+                  <td class="todolist" style="background-color: rgb(55, 36, 29); font-size: 24px;">
+                      <form method="POST">
+                          {% csrf_token %}
+                          <input type="hidden" name="id" value="{{task.pk}}">
+                          <input type="hidden" name="delete_task" value="delete">
+                          <input type="submit" name="submit" value="❌" style="border: none; background-color: transparent; font-size: 24px;">
+                      </form>
+                  </td>
+              </tr>
+          {% endfor %}
+          ...
+      </table>
+      ```
+
+      Pada `views.py` di folder `todolist`, ubah fungsi `show_todolist` untuk memproses metode request POST. Gunakan `name` yang telah diberikan pada input sebelumnya untuk mengambil `Task` dan perintahnya. Setelah itu, cek perintah apa yang terjadi. Apabila perintah yang terjadi adalah `update_task`, ubah nilai atribut `is_finished` dari `Task` sesuai dengan yang diminta. Apabila perintah yang terjadi adalah `delete_task`, hapus `Task` tersebut dari database menggunakan fungsi `delete`.
+
+      ```python
+      def show_todolist(request):
+          data = Task.objects.filter(user=request.user)
+
+          if request.method == "POST":
+              id = request.POST.get('id')
+              task = Task.objects.filter(pk=id).first()
+
+              update_task = request.POST.get('update_task')
+              delete_task = request.POST.get('delete_task')
+
+              if update_task == "done":
+                  task.is_finished = True
+                  task.save()
+                  messages.success(request, 'Status Task berhasil diubah!')
+              elif update_task == "not_done":
+                  task.is_finished = False
+                  task.save()
+                  messages.success(request, 'Status Task berhasil diubah!')
+        
+              if delete_task == "delete":
+                  try:
+                      task.delete()
+                      messages.success(request, 'Task berhasil dihapus!')
+                  except AttributeError:
+                      pass
+          ...
+      ```
+
+      Sekarang, client dapat mengubah status dari `Task` serta menghapusnya.
