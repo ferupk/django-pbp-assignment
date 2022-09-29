@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Registrasi</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class="div-title">
+
+    <h1 class="h-center">Tugas 4 PBP/PBD: Form and Authentication</h1>
+    <h2 class="h-center">To-Do List</h2>
+    
+</div>
+
+<div class = "div-form">
+
+    <h1 class="h-center">Registrasi</h1>  
+
+    <form method="POST" >  
+        {% csrf_token %}  
+        <table class="table-login">   
+            <tr>
+                <td><label for="id_username">Username </label></td>
+                <td>
+                    <input type="text" name="username" maxlength="150" autocapitalize="none" autofocus required id="id_username" title="150 characters or fewer. Letters, digits and @/./+/-/_ only." >
+                </td>
+            </tr>
+            <tr>
+                <td><label for="id_password1">Password </label></td>
+                <td>
+                    <input type="password" name="password1" required id="id_password1" title="Your password must contain at least 8 characters and cannot be completely numerical." >
+                </td>
+            </tr>
+            <tr>
+                <td><label for="id_password2">Confirm Password </label></td>
+                <td>
+                    <input type="password" name="password2" required id="id_password2" title="Retype the password you just entered." >
+                </td>
+            </tr> 
+            <tr style="height: 20px;"></tr>
+            <tr>  
+                <td colspan="2"><input class="btn-common" type="submit" name="submit" value="Register"/></td>  
+            </tr> 
+        </table>  
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="form-notification">{{ message }}</p>
+        {% endfor %}
+    {% endif %}  
+
+    <p style="text-align: center; font-size: 16px;">
+        Arahkan cursor ke atas textbox untuk informasi lanjut<br>
+        Sudah punya akun? <a style="font-size: 24px; color:white; font-weight: bold;" href="{% url 'todolist:login' %}">Login Sekarang</a>
+    </p>
+
+</div>  
+<div class="div-footer">
+    <p>Feru Pratama Kartajaya - 2106750351</p>
+</div>
+{% endblock content %}

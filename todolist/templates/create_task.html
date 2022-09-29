@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Tambah Task Baru</title>
+{% endblock meta %}
+
+{% block content %}
+
+<div class="div-title">
+
+    <h1 class="h-center">Tugas 4 PBP/PBD: Form and Authentication</h1>
+    <h2 class="h-center">{{current_user}}'s To-Do List</h2>
+
+</div>
+
+<div class="div-form">
+
+    <h1 class="h-center">Tambah Task Baru</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table class="table-login">
+            <tr>
+                <td>Title </td>
+                <td><input type="text" name="title" placeholder="Title" autofocus required></td>
+            </tr>            
+            <tr>
+                <td>Description </td>
+                <td><textarea name="description" placeholder="Description" rows="4" cols="28"></textarea></td>
+            </tr>
+            <tr style="height: 20px;"></tr>
+            <tr>
+                <td colspan="2"><input class="btn-common" type="submit" value="Tambah Task"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="form-notification">{{ message }}</p>
+        {% endfor %}
+    {% endif %}     
+        
+    <p style="text-align: center; font-size: 16px;">
+        Berubah pikiran? <a style="font-size: 24px; color:white; font-weight: bold;" href="{% url 'todolist:show_todolist' %}">Cancel Task</a>
+    </p>
+
+</div>
+<div class="div-footer">
+    <p>Feru Pratama Kartajaya - 2106750351</p>
+</div>
+{% endblock content %}

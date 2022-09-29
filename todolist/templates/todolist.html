@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>{{current_user}}'s To-Do List</title>
+{% endblock meta %}
+
+{% block content %}
+
+<div class="div-title">
+
+    <h1 class="h-center">Tugas 4 PBP/PBD: Form and Authentication</h1>
+    <h2 class="h-center">{{current_user}}'s To-Do List</h2>
+
+</div>
+
+{% if messages %}
+        {% for message in messages %}
+            <p class="form-notification">{{ message }}</p>
+        {% endfor %}
+{% endif %} 
+
+<table>
+    <tr>
+        <th style="width: 10%;" class="todolist">Tanggal Dibuat</th>
+        <th style="width: 20%;" class="todolist">Task</th>
+        <th style="width: 52%;" class="todolist">Deskripsi</th>
+        <th style="width: 6%;" class="todolist">Status</th>
+        <th style="width: 6%;" class="todolist">Ubah Status</th>
+        <th style="width: 6%;" class="todolist">Hapus Task</th>
+    </tr>
+    {% for task in task_list %}
+        <tr>
+            <td class="todolist">{{task.date}}</td>
+            <td class="todolist">{{task.title}}</td>
+            <td class="todolist">{{task.description}}</td>
+            {% if task.is_finished %}
+                <td class="todolist" style="background-color: green;">Selesai</td>
+            {% else %}
+                <td class="todolist" style="background-color: red;">Belum Selesai</td>
+            {% endif %}
+            <td class="todolist" style="background-color: white;">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{task.pk}}">
+                    {% if task.is_finished %}
+                        <input type="hidden" name="update_task" value="not_done">
+                    {% else %}
+                        <input type="hidden" name="update_task" value="done">
+                    {% endif %}
+                    <input type="submit" name="submit" value="⇄" style="border: none; background-color: transparent; font-size: 24px;">
+                </form>
+            </td>
+            <td class="todolist" style="background-color: rgb(55, 36, 29); font-size: 24px;">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{task.pk}}">
+                    <input type="hidden" name="delete_task" value="delete">
+                    <input type="submit" name="submit" value="❌" style="border: none; background-color: transparent; font-size: 24px;">
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    <tr style="height: 20px;"></tr>
+    <tr>
+        <td style="background-color: transparent;" colspan="6"><a href="{% url 'todolist:create_task' %}"><button class="btn-common">Tambah Task Baru</button></a></td>
+    </tr>
+    <tr>
+        <td style="background-color: transparent;" colspan="6"><a href="{% url 'todolist:logout' %}"><button class="btn-common">Logout</button></a></td>
+    </tr>
+</table>
+
+<div class="div-footer">
+    <p>Feru Pratama Kartajaya - 2106750351</p>
+</div>
+
+{% endblock content %}
