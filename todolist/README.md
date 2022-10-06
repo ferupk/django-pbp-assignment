@@ -271,7 +271,7 @@ Aplikasi `todolist` merupakan tambahan dari proyek Django yang dimulai pada Tuga
 
       Pada `todolist.html` di folder `templates`, tambahkan for loop untuk menambahkan data `Task` ke dalam tabel `todolist`. Karena data berupa model, setiap `Task` perlu diakses setiap atributnya secara langsung. Selain itu, tambahkan juga tombol untuk menambahkan `Task` seperti berikut:
 
-      ```html
+      ```html  
       <!-- Button "Tambah Task Baru" pada todolist.html -->
       <td style="background-color: transparent;"><a href="{% url 'todolist:create_task' %}"><button class="btn-common">Tambah Task Baru</button></a></td>
       ```
@@ -287,8 +287,8 @@ Aplikasi `todolist` merupakan tambahan dari proyek Django yang dimulai pada Tuga
    9. **Testing akun dan pembuatan Task**
 
       Setelah mengakses aplikasi di https://django-pbp-ferupk.herokuapp.com/todolist/, buatlah 2 akun berbeda. Setelah itu, buatlah 3 task baru untuk setiap akun.
-   
-   10. **BONUS: Implementasi dasar CRUD pada Task**
+
+   * **BONUS: Implementasi dasar CRUD pada Task**
 
       NOTE: Langkah berikut dilakukan sebelum deployment ke Heroku
 
@@ -370,3 +370,272 @@ Aplikasi `todolist` merupakan tambahan dari proyek Django yang dimulai pada Tuga
       ```
 
       Sekarang, client dapat mengubah status dari `Task` serta menghapusnya.
+
+
+
+# Tugas 5: Web Design Using HTML, CSS, and CSS Framework
+
+Feru Pratama Kartajaya (2106750351) - Kelas E
+
+Link Heroku: https://django-pbp-ferupk.herokuapp.com/todolist/
+
+### Inline, internal, dan external CSS
+
+Inline CSS digunakan untuk menambahkan styling pada satu elemen tertentu. Atribut `style=` ditambahkan pada tag suatu elemen dan dapat diberikan style CSS yang sesuai. Inline CSS memiliki prioritas yang paling tinggi sehingga dapat digunakan untuk meng-override kumpulan style lain yang diberikan pada elemen seperti class. Namun, Inline CSS dapat mudah mengotori template HTML karena lokasinya di dalam tag elemen.
+
+Internal CSS mendefinisikan style dari dalam file HTML itu sendiri dengan menggunakan elemen `<style>` di bagian `<head>` dari template, sedangkan External CSS mendefinisikan style dari sebuah file tersendiri yang dapat dihubungkan dengan template. Kedua metode CSS ini dapat mendefinisikan style untuk satu macam elemen, atau sebuah class atau id yang dapat diberikan kepada elemen. External CSS memudahkan perubahan style untuk banyak webpage dan membuat susunan file lebih rapih, namun kalah prioritas dengan Internal CSS.
+
+### Tag HTML5
+
+   * `<head>`: Karakteristik dan metadata dari webpage (Judul, *viewport*, *styling*, dll.)
+   * `<title>`: Judul halaman webpage (tampil di tab browser)
+   * `<meta>`: Metadata webpage
+   * `<style>`: Internal CSS
+   * `<header>, <body>, <footer>`: Isi dari webpage
+   * `<div>`: Kontainer elemen HTML yang digunakan untuk membuat bagian-bagian webpage
+   * `<h1> - <h6>`: Heading dalam 6 ukuran
+   * `<table>, <tr>, <th>, <td>`: Tabel, baris tabel, header tabel, dan cell tabel
+   * `<p>`: Paragraf
+   * `<span>`: Kontainer inline yang digunakan untuk markup teks
+   * `<a>`: Hyperlink yang dapat diakses
+   * `<nav>`: Area link navigasi webpage
+   * `<form>`: Area form yang dapat mengirimkan informasi ke server
+   * `<label>`: Label untuk elemen tertentu
+   * `<input>, <textarea>`: Area input untuk mengisi data
+   * `<button>`: Tombol yang dapat mengakibatkan *event*
+   * `<img>, <video>`: Embed gambar/video pada webpage
+
+   dan masih banyak lagi.
+
+### CSS Selector
+
+   * Element Selector
+
+     Selector ini menggunakan tag HTML untuk memberikan *styling*.
+
+     ```css
+     h1 {
+         text-align: center;
+         font-size: 24px;
+     }
+     ```
+    
+   * ID Selector
+
+     Selector ini menggunakan ID yang dapat diberikan kepada elemen HTML untuk memberikan *styling*. Sebuah elemen hanya dapat memiliki satu ID unik.
+      
+     ```css
+     #colored {
+         color: yellow;
+         background-color: purple;
+     }
+     ```
+     ```html
+     <span id="colored">Colored Text</span>
+     ```
+
+   * Class Selector
+
+     Selector ini menggunakan class yang dapat diberikan kepada elemen HTML untuk memberikan *styling*. Sebuah elemen dapat memiliki class sebanyak apapun. Class Selector dapat dikhususkan untuk elemen tertentu.
+
+     ```css
+     .thick-font {
+         font-size: 18px;
+         font-weight: bold;
+     }
+
+     p.square {
+         padding: 10px;
+         background-color: green;
+     }
+     ```
+     ```html
+     <p class="square thick-font">Sample Text</p>
+     ```
+
+   * Descendant Selector
+
+     Selector ini memberikan *styling* pada elemen tertentu yang berada di dalam sebuah elemen.
+     
+     ```css
+     div p {
+        color: white;
+         background-color: red;
+     }
+     ```
+     ```html
+     <div>
+         <p>Paragraph 1</p> <!-- Terpengaruh -->
+         <span>
+             <p>Paragraph 2</p> <!-- Terpengaruh -->
+         </span>
+     </div>
+     ```
+
+   * Child Selector
+   
+     Selector ini memberikan *styling* pada elemen tertentu yang merupakan anak langsung dari sebuah elemen.
+
+     ```css
+     div > p {
+        color: white;
+         background-color: red;
+     }
+     ```
+     ```html
+     <div>
+         <p>Paragraph 1</p> <!-- Terpengaruh -->
+         <span>
+             <p>Paragraph 2</p> <!-- Tidak terpengaruh -->
+         </span>
+     </div>
+     ```
+
+   * Adjacent Sibling Selector
+     
+     Selector ini memberikan *styling* pada elemen tertentu yang tepat setelah sebuah elemen.
+
+     ```css
+     div + p {
+        color: white;
+         background-color: red;
+     }
+     ```
+     ```html
+     <div>
+         <p>Paragraph 1</p> <!-- Tidak terpengaruh -->
+     </div>
+     <p>Paragraph 2</p> <!-- Terpengaruh -->
+     <p>Paragraph 3</p> <!-- Tidak terpengaruh -->
+     ```
+
+   * General Sibling Selector
+     
+     Selector ini memberikan *styling* pada elemen tertentu yang berada setelah sebuah elemen.
+
+     ```css
+     div ~ p {
+        color: white;
+         background-color: red;
+     }
+     ```
+     ```html
+     <div>
+         <p>Paragraph 1</p> <!-- Tidak terpengaruh -->
+     </div>
+     <p>Paragraph 2</p> <!-- Terpengaruh -->
+     <p>Paragraph 3</p> <!-- Terpengaruh -->
+     ```
+
+   * Universal Selector
+     
+     Selector ini memberikan *styling* pada semua elemen HTML.
+
+      ```css
+      * {
+          font-family: "Bahnschrift", Tahoma;
+          background-color:  transparent;
+      }
+      ```
+
+### Implementasi Web Design dengan CSS dan Bootstrap
+
+   1. **CSS dan Bootstrap**
+   
+      Sebelum dapat mendesain webpage, stylesheet CSS dan Bootstrap perlu dihubungkan ke template terlebih dahulu.
+   
+      * Buatlah direktori `static\css` di folder utama dan tambahkan file `style.css` di dalamnya. File ini akan digunakan sebagai external stylesheet CSS.
+
+      * Pada `base.html` di folder `templates` utama, hubungkan file static dengan `{% load static %}`. Lalu, tambahkan stylesheet CSS dan Bootstrap menggunakan elemen `<link>`.
+
+      ```html
+      <head>
+          ...
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+          <link rel="stylesheet" href="{% static 'css/style.css' %}">
+          ...
+      </head>
+      ```
+
+      Sekarang, template HTML dapat didesain menggunakan class-class CSS dan Bootstrap dengan menambahkan `{% extends 'base.html' %}` di awal dokumen.
+
+   2. **Web design**
+
+      Secara garis besar, web design pada `todolist` adalah sebagai berikut:
+
+         * Keempat halaman memiliki `navbar` di atas yang menunjukkan judul halaman dan di bawah yang berperan sebagai footer. Untuk halaman `todolist` dan `create-task`, `navbar` di atas akan menampilkan nama user yang sedang login serta button untuk logout.
+
+         * Keempat halaman memiliki bagian yang dapat menampilkan berbagai notifikasi berdasarkan aksi user (Gagal login, mengubah status Task, membuat Task, dll.)
+
+         * Untuk halaman `login`, `register`, dan `create-task`, form disajikan di dalam container `div-form` dan menggunakan class-class form Bootstrap seperti `form-group` dan `form-control`. Link untuk berpindah antar halaman juga ditambahkan untuk kemudahan navigasi (Berpindah dari `login` dan `register`, kembali ke `todolist` dari `create-task`)
+
+         * Untuk halaman `todolist`, setiap Task disajikan dalam format `card` dari Bootstrap. Judul dan urutan Task diberikan sebagai `header` dari `card`, sedangkan `body` dari `card` digunakan untuk menampilkan deskripsi, tanggal pembuatan, dan status Task. Tombol untuk mengubah status dan menghapus Task ditampilkan pada `footer` dari `card`. `Card` terakhir digunakan sebagai tombol untuk membuat task baru. Styling dari `div` dan `card` sudah disesuaikan sebagaimana terdapat maksimal 2 `card` per baris.
+
+   3. ***Responsive web design***
+
+      Untuk implementasi *responsive web design*, beberapa fitur sudah ditangani oleh metadata `viewport` dan class-class dari Bootstrap seperti `navbar-expand`, `d-flex`, dan lainnya. Untuk aplikasi `todolist`, masih diperlukan penyesuaian untuk ukuran `<div>` pada form, ukuran `<card>`, dan ukuran font judul. Penyesuaian dapat dilakukan dengan menggunakan *media query* untuk ukuran layar tertentu.
+
+      ```css
+      .page-title {
+          font-size: 36px;
+      }
+
+      .card-size-adjust {
+          width: 45%;
+      }
+
+      .form-size-adjust {
+          width: 60%
+      }
+
+      @media (max-width: 666px) {
+          .card-size-adjust {
+              width: auto;
+              min-width: 45%;
+          }
+
+          .form-size-adjust {
+              width: auto;
+              max-width: 90%;
+          }
+      }
+
+      @media (max-width: 375px) {
+          .page-title {
+              font-size: 24px;
+          }
+      }
+      ```
+
+      Sekarang, webpage akan menyesuaikan diri untuk layar berukuran kecil.
+
+   * **BONUS: Animasi pada `card`**
+      
+      Pseudo-class dari CSS dapat digunakan untuk mengdikte *styling* sebuah elemen dalam keadaan tertentu. Untuk menambahkan efek pada `card` saat *cursor* berada di atasnya, kita dapat menggunakan pseudo-class `hover`. Untuk aplikasi `todolist`, `card` akan berubah warna menjadi keemasan dan menampilkan teks `hint` untuk tombol status dan delete saat terjadi `hover`.
+
+      ```css
+      .card-task {
+          border: 2px solid black;
+          transition: 0.5s;
+      }
+
+      .card-task:hover {
+          background-color: wheat;
+          border: 2px solid black;
+      }
+
+      .card-task:hover span.hint {
+          opacity: 1;
+      }
+
+      span.hint {
+          font-size: 12px;
+          padding-top: 10px;
+          text-align: center;
+          color: rgba(0, 0, 0, 0.5);
+          opacity: 0;
+          transition: 0.5s;
+      }
+      ```
+
+      Logika yang sama juga diterapkan untuk setiap tombol dan `card` tambah Task dengan tambahan pseudo-class `active`.
