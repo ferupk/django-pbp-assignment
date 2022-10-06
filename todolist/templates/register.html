@@ -6,58 +6,53 @@
 
 {% block content %}  
 
-<div class="div-title">
+<body>
 
-    <h1 class="h-center">Tugas 4 PBP/PBD: Form and Authentication</h1>
-    <h2 class="h-center">To-Do List</h2>
-    
-</div>
+    <nav class="navbar navbar-dark px-3 nav-colors justify-content-center">
+        <span class="navbar-brand page-title"> To-Do List </span>
+    </nav>
 
-<div class = "div-form">
+    <div class="container div-form form-size-adjust my-5">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group mt-4 mb-3">
+                <h1 style="text-align: center;">Register</h1>
+            </div>
+            <div class="form-group my-3">
+                <label>Username</label>
+                <input class="form-control" type="text" name="username" maxlength="150" autocapitalize="none" autofocus required id="id_username" title="150 characters or fewer. Letters, digits and @/./+/-/_ only." >
+            </div>
+            <div class="form-group mt-3">
+                <label>Password</label>
+                <input class="form-control" type="password" name="password1" required id="id_password1" title="Your password must contain at least 8 characters and cannot be completely numerical.">
+            </div>
+            <div class="form-group mt-3">
+                <label>Confirm Password</label>
+                <input class="form-control" type="password" name="password2" required id="id_password2" title="Retype the password you just entered." >
+            </div>
+            <div class="form-group text-center mt-4 mb-3">
+                <button class="btn btn-common" type="submit" name="submit">Register</button>
+            </div>
+        </form>
 
-    <h1 class="h-center">Registrasi</h1>  
+        {% if messages %}
+            {% for message in messages %}
+                <p class="form-notification">{{ message }}</p>
+            {% endfor %}
+        {% endif %} 
 
-    <form method="POST" >  
-        {% csrf_token %}  
-        <table class="table-login">   
-            <tr>
-                <td><label for="id_username">Username </label></td>
-                <td>
-                    <input type="text" name="username" maxlength="150" autocapitalize="none" autofocus required id="id_username" title="150 characters or fewer. Letters, digits and @/./+/-/_ only." >
-                </td>
-            </tr>
-            <tr>
-                <td><label for="id_password1">Password </label></td>
-                <td>
-                    <input type="password" name="password1" required id="id_password1" title="Your password must contain at least 8 characters and cannot be completely numerical." >
-                </td>
-            </tr>
-            <tr>
-                <td><label for="id_password2">Confirm Password </label></td>
-                <td>
-                    <input type="password" name="password2" required id="id_password2" title="Retype the password you just entered." >
-                </td>
-            </tr> 
-            <tr style="height: 20px;"></tr>
-            <tr>  
-                <td colspan="2"><input class="btn-common" type="submit" name="submit" value="Register"/></td>  
-            </tr> 
-        </table>  
-    </form>
+        <div class="mt-4 mb-2">
+            <p style="text-align: center; font-size: 12px;">
+                Arahkan cursor ke atas textbox untuk informasi lanjut<br>
+                Sudah punya akun? <a style="font-size: 18px; color:white; font-weight: bold;" href="{% url 'todolist:login' %}">Login Sekarang</a>
+            </p>
+        </div>
+    </div>>
 
-    {% if messages %}
-        {% for message in messages %}
-            <p class="form-notification">{{ message }}</p>
-        {% endfor %}
-    {% endif %}  
+    <nav class="navbar fixed-bottom navbar-dark px-3 nav-colors" style="border: 0;">
+        <span style="color: white;">© Feru Pratama Kartajaya - 2106750351 </span>
+    </nav>
 
-    <p style="text-align: center; font-size: 16px;">
-        Arahkan cursor ke atas textbox untuk informasi lanjut<br>
-        Sudah punya akun? <a style="font-size: 24px; color:white; font-weight: bold;" href="{% url 'todolist:login' %}">Login Sekarang</a>
-    </p>
+</body>
 
-</div>  
-<div class="div-footer">
-    <p>Feru Pratama Kartajaya - 2106750351</p>
-</div>
 {% endblock content %}

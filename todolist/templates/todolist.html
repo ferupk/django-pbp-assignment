@@ -6,39 +6,41 @@
 
 {% block content %}
 
-<div class="div-title">
+<body>
 
-    <h1 class="h-center">Tugas 4 PBP/PBD: Form and Authentication</h1>
-    <h2 class="h-center">{{current_user}}'s To-Do List</h2>
+    <nav class="navbar navbar-expand-md navbar-dark px-3 nav-colors justify-content-between">
+        <span class="navbar-brand page-title"> <span style="font-weight: bold;">{{current_user}}</span>'s To-Do List </span>
+        <a href="{% url 'todolist:logout' %}"><button class="btn btn-common">Logout</button></a>
+    </nav>
 
-</div>
+    <div class="my-4">
+        {% if messages %}
+            {% for message in messages %}
+                <p class="form-notification">{{ message }}</p>
+            {% endfor %}
+        {% endif %} 
+    </div>
 
-{% if messages %}
-        {% for message in messages %}
-            <p class="form-notification">{{ message }}</p>
-        {% endfor %}
-{% endif %} 
+    <div class="d-flex justify-content-center mt-4 mb-5" style="flex-wrap: wrap; ">
+        {% for task in task_list %}
 
-<table>
-    <tr>
-        <th style="width: 10%;" class="todolist">Tanggal Dibuat</th>
-        <th style="width: 20%;" class="todolist">Task</th>
-        <th style="width: 52%;" class="todolist">Deskripsi</th>
-        <th style="width: 6%;" class="todolist">Status</th>
-        <th style="width: 6%;" class="todolist">Ubah Status</th>
-        <th style="width: 6%;" class="todolist">Hapus Task</th>
-    </tr>
-    {% for task in task_list %}
-        <tr>
-            <td class="todolist">{{task.date}}</td>
-            <td class="todolist">{{task.title}}</td>
-            <td class="todolist">{{task.description}}</td>
-            {% if task.is_finished %}
-                <td class="todolist" style="background-color: green;">Selesai</td>
-            {% else %}
-                <td class="todolist" style="background-color: red;">Belum Selesai</td>
-            {% endif %}
-            <td class="todolist" style="background-color: white;">
+        <div class="card mx-3 my-3 card-size-adjust card-task">
+            <div class="card-header">
+                <span style="font-size: 24px;">{{task.title}}</span>
+                <span style="font-size: 16px; float: right; color: rgba(0, 0, 0, 0.5)">{{forloop.counter}}</span>
+            </div>
+            <div class="card-body">
+                Deskripsi: {{task.description}}<br>
+                Dibuat Tanggal: {{task.date}}<br>
+                Status: 
+                {% if task.is_finished %}
+                    <span>✔️ Selesai</span>
+                {% else %}
+                    <span>❌ Belum Selesai</span>
+                {% endif %}
+            </div>
+            <div class="card-footer d-flex flex-row justify-content-center" style="gap: 10px;">
+                <span class="hint">Change Status</span>
                 <form method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{task.pk}}">
@@ -47,30 +49,33 @@
                     {% else %}
                         <input type="hidden" name="update_task" value="done">
                     {% endif %}
-                    <input type="submit" name="submit" value="⇄" style="border: none; background-color: transparent; font-size: 24px;">
+                    <button class="btn btn-change" type="submit" name="submit">⇄</button>
                 </form>
-            </td>
-            <td class="todolist" style="background-color: rgb(55, 36, 29); font-size: 24px;">
                 <form method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{task.pk}}">
                     <input type="hidden" name="delete_task" value="delete">
-                    <input type="submit" name="submit" value="❌" style="border: none; background-color: transparent; font-size: 24px;">
+                    <button class="btn btn-delete" type="submit" name="submit">❌</button>
                 </form>
-            </td>
-        </tr>
-    {% endfor %}
-    <tr style="height: 20px;"></tr>
-    <tr>
-        <td style="background-color: transparent;" colspan="6"><a href="{% url 'todolist:create_task' %}"><button class="btn-common">Tambah Task Baru</button></a></td>
-    </tr>
-    <tr>
-        <td style="background-color: transparent;" colspan="6"><a href="{% url 'todolist:logout' %}"><button class="btn-common">Logout</button></a></td>
-    </tr>
-</table>
+                <span class="hint">Delete Task</span>
+            </div>
+        </div>
+    
+        {% endfor %}
 
-<div class="div-footer">
-    <p>Feru Pratama Kartajaya - 2106750351</p>
-</div>
+        <div class="card mx-3 my-3 card-size-adjust card-create" style="min-height: 200px;">
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <span style="font-size: 36px; text-align: center;">Tambah Task Baru</span>
+            </div>
+            <a href="{% url 'todolist:create_task' %}" class="stretched-link"></a>
+        </div>
+
+    </div>
+
+    <nav class="navbar fixed-bottom navbar-dark px-3 nav-colors" style="border: 0;">
+        <span style="color: white;">© Feru Pratama Kartajaya - 2106750351 </span>
+    </nav>
+    
+</body>
 
 {% endblock content %}
