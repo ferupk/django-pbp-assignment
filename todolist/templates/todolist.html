@@ -2,11 +2,76 @@
 
 {% block meta %}
 <title>{{current_user}}'s To-Do List</title>
+
+<script>
+    async function refreshTasks() {
+        const tasks = await fetch("{% url 'todolist:show_json' %}").then((response) => response.json());
+
+        let htmlCards = '';
+        tasks.forEach((task, i) => {
+            var status = '', update = '';
+            if (task.fields.is_finished) {
+                status = "✔️ Selesai";
+                update = "not_done";
+            } else {
+                status = "❌ Belum Selesai";
+                update = "done";
+            }
+
+            htmlCards += '<div class="card mx-3 my-3 card-size-adjust card-task">' + 
+                            '<div class="card-header">' +
+                                '<span style="font-size: 24px;">' + task.fields.title + '</span>' +
+                                '<span style="font-size: 16px; float: right; color: rgba(0, 0, 0, 0.5)">' + (i+1) + '</span>' +
+                            '</div>' +
+                            '<div class="card-body">' +
+                                'Deskripsi: ' + task.fields.description + '<br>' +
+                                'Dibuat Tanggal: ' + task.fields.date + '<br>' +
+                                'Status: ' + status +
+                            '</div>' +
+                            '<div class="card-footer d-flex flex-row justify-content-center" style="gap: 10px;">' +
+                                '<span class="hint">Change Status</span>' +
+                                '<form method="POST">' +
+                                    '{% csrf_token %}' +
+                                    '<input type="hidden" name="id" value="' + task.pk + '">' +
+                                    '<input type="hidden" name="update_task" value="' + update + '">' +
+                                    '<button class="btn btn-change" type="submit" name="submit">⇄</button>' +
+                                '</form>' +
+                                '<form onsubmit="return false;">' +
+                                    '{% csrf_token %}' +
+                                    '<button class="btn btn-delete" type="submit" name="submit" onclick="deleteTask(' + task.pk + ')">❌</button>' +
+                                '</form>' +
+                                '<span class="hint">Delete Task</span>' +
+                            '</div>' +
+                        '</div>';
+        });
+
+        htmlCards += '<div class="card mx-3 my-3 card-size-adjust card-create" style="min-height: 200px;">' +
+                        '<div class="card-body d-flex align-items-center justify-content-center">' +
+                            '<span style="font-size: 36px; text-align: center;">Tambah Task Baru</span>' +
+                        '</div>' +
+                        '<a role="button" data-bs-toggle="modal" data-bs-target="#addTask" class="stretched-link"></a>' +
+                    '</div>';
+        
+        document.getElementById("cards").innerHTML = htmlCards
+    }
+
+    function deleteTask(id) {
+        fetch(`/todolist/delete/${id}`, {method: "DELETE", headers: {"X-CSRFToken": "{{csrf_token}}" }}).then(refreshTasks);
+        return false;
+    }
+
+    function addNewTask() {
+        fetch("{% url 'todolist:add_task' %}", {method: "POST", body: new FormData(document.querySelector("#addForm"))}).then(refreshTasks);
+        document.getElementById("addForm").reset();
+        return false;
+    }
+</script>
+
 {% endblock meta %}
 
 {% block content %}
 
-<body>
+<body onload="refreshTasks()">
 
     <nav class="navbar navbar-expand-md navbar-dark px-3 nav-colors justify-content-between">
         <span class="navbar-brand page-title"> <span style="font-weight: bold;">{{current_user}}</span>'s To-Do List </span>
@@ -16,60 +81,40 @@
     <div class="my-4">
         {% if messages %}
             {% for message in messages %}
-                <p class="form-notification">{{ message }}</p>
             {% endfor %}
         {% endif %} 
     </div>
 
-    <div class="d-flex justify-content-center mt-4 mb-5" style="flex-wrap: wrap; ">
-        {% for task in task_list %}
+    <div id="cards" class="d-flex justify-content-center mt-4 mb-5" style="flex-wrap: wrap; "></div>
 
-        <div class="card mx-3 my-3 card-size-adjust card-task">
-            <div class="card-header">
-                <span style="font-size: 24px;">{{task.title}}</span>
-                <span style="font-size: 16px; float: right; color: rgba(0, 0, 0, 0.5)">{{forloop.counter}}</span>
-            </div>
-            <div class="card-body">
-                Deskripsi: {{task.description}}<br>
-                Dibuat Tanggal: {{task.date}}<br>
-                Status: 
-                {% if task.is_finished %}
-                    <span>✔️ Selesai</span>
-                {% else %}
-                    <span>❌ Belum Selesai</span>
-                {% endif %}
-            </div>
-            <div class="card-footer d-flex flex-row justify-content-center" style="gap: 10px;">
-                <span class="hint">Change Status</span>
-                <form method="POST">
+    <div class="modal fade" id="addTask" tabindex="-1" aria-labelledby="addTaskLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h1 class="modal-title fs-5 text-white" id="addTaskLabel">Tambah Task Baru</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form id="addForm" onsubmit="return false;">
                     {% csrf_token %}
-                    <input type="hidden" name="id" value="{{task.pk}}">
-                    {% if task.is_finished %}
-                        <input type="hidden" name="update_task" value="not_done">
-                    {% else %}
-                        <input type="hidden" name="update_task" value="done">
-                    {% endif %}
-                    <button class="btn btn-change" type="submit" name="submit">⇄</button>
+                    <div class="modal-body">
+                        <div class="form-group my-3">
+                            <label>Title</label>
+                            <input class="form-control" type="text" name="title" placeholder="Title" autofocus required>
+                        </div>
+                        <div class="form-group my-3">
+                            <label>Description</label>
+                            <textarea class="form-control" name="description" placeholder="Description" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" name="submit" class="btn btn-success" data-bs-dismiss="modal" onclick="addNewTask()">Tambah Task</button>
+                    </div>
                 </form>
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{task.pk}}">
-                    <input type="hidden" name="delete_task" value="delete">
-                    <button class="btn btn-delete" type="submit" name="submit">❌</button>
-                </form>
-                <span class="hint">Delete Task</span>
+
             </div>
         </div>
-    
-        {% endfor %}
-
-        <div class="card mx-3 my-3 card-size-adjust card-create" style="min-height: 200px;">
-            <div class="card-body d-flex align-items-center justify-content-center">
-                <span style="font-size: 36px; text-align: center;">Tambah Task Baru</span>
-            </div>
-            <a href="{% url 'todolist:create_task' %}" class="stretched-link"></a>
-        </div>
-
     </div>
 
     <nav class="navbar fixed-bottom navbar-dark px-3 nav-colors" style="border: 0;">

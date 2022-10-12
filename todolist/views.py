@@ -3,8 +3,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
+from django.core import serializers
 from datetime import date
 from todolist.forms import CreateTaskForm
 from todolist.models import Task
@@ -43,6 +44,11 @@ def show_todolist(request):
     return render(request, 'todolist.html', context)
 
 @login_required(login_url='/todolist/login/')
+def show_json(request):
+    data = Task.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+@login_required(login_url='/todolist/login/')
 def create_task(request):
     form = CreateTaskForm()
 
@@ -64,6 +70,31 @@ def create_task(request):
         'current_user': request.COOKIES['current_user'],
     }
     return render(request, 'create_task.html', context)
+
+@login_required(login_url='/todolist/login/')
+def add_task(request):
+    form = CreateTaskForm()
+
+    if request.method == 'POST':
+        form = CreateTaskForm(request.POST)
+        if form.is_valid():
+            task_data = form.save(commit=False)
+            task_data.user = request.user
+            task_data.date = date.today()
+            task_data.save()
+            form.save_m2m()
+            return HttpResponse("Task Added", status=201)
+
+    return HttpResponseNotFound()
+
+@login_required(login_url='/todolist/login/')
+def delete_task(request, id):
+    if request.method == 'DELETE':
+        task = Task.objects.filter(pk=id)
+        task.delete()
+        return HttpResponse("Task Deleted", status=204)
+    
+    return HttpResponseNotFound()
 
 def register(request):
     form = UserCreationForm()
