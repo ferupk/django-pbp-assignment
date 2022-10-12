@@ -120,6 +120,7 @@ def login_user(request):
             login(request, user)
             response = HttpResponseRedirect(reverse('todolist:show_todolist'))
             response.set_cookie('current_user', username)
+            response.set_cookie('user_id', user.id)
             return response
         else:
             messages.info(request, 'Username atau password salah, coba lagi!')
@@ -131,4 +132,5 @@ def logout_user(request):
     logout(request)
     response = HttpResponseRedirect(reverse('todolist:login'))
     response.delete_cookie('current_user')
+    response.delete_cookie('user_id')
     return response

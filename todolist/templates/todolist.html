@@ -7,42 +7,46 @@
     async function refreshTasks() {
         const tasks = await fetch("{% url 'todolist:show_json' %}").then((response) => response.json());
 
-        let htmlCards = '';
-        tasks.forEach((task, i) => {
-            var status = '', update = '';
-            if (task.fields.is_finished) {
-                status = "✔️ Selesai";
-                update = "not_done";
-            } else {
-                status = "❌ Belum Selesai";
-                update = "done";
-            }
+        let htmlCards = '', cardCount = 0;
+        tasks.forEach((task) => {
+            if (task.fields.user == "{{request.COOKIES.user_id}}") {
+                var status = '', update = '';
+                cardCount++;
 
-            htmlCards += '<div class="card mx-3 my-3 card-size-adjust card-task">' + 
-                            '<div class="card-header">' +
-                                '<span style="font-size: 24px;">' + task.fields.title + '</span>' +
-                                '<span style="font-size: 16px; float: right; color: rgba(0, 0, 0, 0.5)">' + (i+1) + '</span>' +
-                            '</div>' +
-                            '<div class="card-body">' +
-                                'Deskripsi: ' + task.fields.description + '<br>' +
-                                'Dibuat Tanggal: ' + task.fields.date + '<br>' +
-                                'Status: ' + status +
-                            '</div>' +
-                            '<div class="card-footer d-flex flex-row justify-content-center" style="gap: 10px;">' +
-                                '<span class="hint">Change Status</span>' +
-                                '<form method="POST">' +
-                                    '{% csrf_token %}' +
-                                    '<input type="hidden" name="id" value="' + task.pk + '">' +
-                                    '<input type="hidden" name="update_task" value="' + update + '">' +
-                                    '<button class="btn btn-change" type="submit" name="submit">⇄</button>' +
-                                '</form>' +
-                                '<form onsubmit="return false;">' +
-                                    '{% csrf_token %}' +
-                                    '<button class="btn btn-delete" type="submit" name="submit" onclick="deleteTask(' + task.pk + ')">❌</button>' +
-                                '</form>' +
-                                '<span class="hint">Delete Task</span>' +
-                            '</div>' +
-                        '</div>';
+                if (task.fields.is_finished) {
+                    status = "✔️ Selesai";
+                    update = "not_done";
+                } else {
+                    status = "❌ Belum Selesai";
+                    update = "done";
+                }
+
+                htmlCards += '<div class="card mx-3 my-3 card-size-adjust card-task">' + 
+                                '<div class="card-header">' +
+                                    '<span style="font-size: 24px;">' + task.fields.title + '</span>' +
+                                    '<span style="font-size: 16px; float: right; color: rgba(0, 0, 0, 0.5)">' + (cardCount) + '</span>' +
+                                '</div>' +
+                                '<div class="card-body">' +
+                                    'Deskripsi: ' + task.fields.description + '<br>' +
+                                    'Dibuat Tanggal: ' + task.fields.date + '<br>' +
+                                    'Status: ' + status +
+                                '</div>' +
+                                '<div class="card-footer d-flex flex-row justify-content-center" style="gap: 10px;">' +
+                                    '<span class="hint">Change Status</span>' +
+                                    '<form method="POST">' +
+                                        '{% csrf_token %}' +
+                                        '<input type="hidden" name="id" value="' + task.pk + '">' +
+                                        '<input type="hidden" name="update_task" value="' + update + '">' +
+                                        '<button class="btn btn-change" type="submit" name="submit">⇄</button>' +
+                                    '</form>' +
+                                    '<form onsubmit="return false;">' +
+                                        '{% csrf_token %}' +
+                                        '<button class="btn btn-delete" type="submit" name="submit" onclick="deleteTask(' + task.pk + ')">❌</button>' +
+                                    '</form>' +
+                                    '<span class="hint">Delete Task</span>' +
+                                '</div>' +
+                            '</div>';
+            }
         });
 
         htmlCards += '<div class="card mx-3 my-3 card-size-adjust card-create" style="min-height: 200px;">' +
